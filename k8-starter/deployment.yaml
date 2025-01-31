@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+
+kind: Deployment
+metadata:
+  name: kub-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kub-app
+      tier: backend
+  template:
+    metadata:
+      labels:
+        app: kub-app
+        tier: backend
+    spec:
+      containers:
+      - name: kub-app-container
+        image: lpla0006/kub-app:latest
+        ports:
+        - containerPort: 8080
