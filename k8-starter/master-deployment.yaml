@@ -1,0 +1,46 @@
+apiVersion: v1
+
+kind: Service
+metadata:
+  name: backend-service
+spec:
+  selector:
+    app: kub-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+  type: LoadBalancer
+
+---
+
+apiVersion: apps/v1
+
+kind: Deployment
+metadata:
+  name: kub-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kub-app
+      tier: backend
+    # matchExpressions:
+    #   - {key: app, operator: In, values: [kub-app]}
+  template:
+    metadata:
+      labels:
+        app: kub-app
+        tier: backend
+    spec:
+      containers:
+      - name: kub-app-container
+        image: lpla0006/kub-app:latest
+        imagePullPolicy: Always # always pull the latest image
+        # custom liveness probe
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8080
+          periodSeconds: 10
+          initialDelaySeconds: 5
