@@ -40,7 +40,7 @@ spec:
         # custom liveness probe
         livenessProbe:
           httpGet:
-            path: /
+            path: / # path to check
             port: 8080
           periodSeconds: 10
           initialDelaySeconds: 5
