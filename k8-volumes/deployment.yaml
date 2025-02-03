@@ -15,3 +15,13 @@ spec:
       containers:
         - name: story
           image: lpla0006/kub-data
+          volumeMounts:
+            - name: story-volume
+              mountPath: /app/story
+      # Add the volumes
+      volumes:
+        - name: story-volume
+          # emptyDir: {} # This is a temporary volume, lives during each pod's lifecycle only
+          hostPath: 
+            path: /data/story
+            type: DirectoryOrCreate # This will create the directory if it doesn't exist
