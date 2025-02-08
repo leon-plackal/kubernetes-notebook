@@ -1,0 +1,18 @@
+# only works on a single node cluster
+apiVersion: v1
+
+kind: PersistentVolume
+metadata:
+  name: host-pv
+spec:
+  capacity:
+    storage: 1Gi
+  volumeMode: Filesystem
+  storageClassName: standard
+  accessModes:
+    - ReadWriteOnce # can be claimed by a single node only, but multiple pods can use it
+    # - ReadWriteMany
+    # - ReadOnlyMany
+  hostPath: 
+    path: /data
+    type: DirectoryOrCreate

@@ -15,6 +15,13 @@ spec:
       containers:
         - name: story
           image: lpla0006/kub-data
+          env:
+            - name: STORY_FOLDER
+              # value: "story" # specify the value directly
+              valueFrom:
+                configMapKeyRef: # get the value from a ConfigMap
+                  name: data-store-env
+                  key: folder
           volumeMounts:
             - name: story-volume
               mountPath: /app/story
@@ -22,6 +29,5 @@ spec:
       volumes:
         - name: story-volume
           # emptyDir: {} # This is a temporary volume, lives during each pod's lifecycle only
-          hostPath: 
-            path: /data/story
-            type: DirectoryOrCreate # This will create the directory if it doesn't exist
+          persistentVolumeClaim:
+            claimName: host-pvc
